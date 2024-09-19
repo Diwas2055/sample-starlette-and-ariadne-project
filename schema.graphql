@@ -1,0 +1,47 @@
+enum SchoolStatus {
+    ACTIVE
+    INACTIVE
+    BANNED
+}
+
+type School {
+    id: Int!
+    school_name: String!
+    school_population: Int!
+    address: Address
+    status: SchoolStatus! 
+}
+
+type Address {
+    street: String!
+    city: String!
+    state: String!
+    postal_code: String!
+}
+
+type Query {
+    getSchoolById(id: Int!): School
+    getSchoolsByName(name: String!): [School!]!
+    allSchools(limit: Int, offset: Int, sortBy: String): [School!]!
+}
+
+input AddressInput {
+    street: String!
+    city: String!
+    state: String!
+    postal_code: String!
+}
+
+type Mutation {
+    addSchool(school_name: String!, school_population: Int!, address: AddressInput!, status: SchoolStatus!): SchoolResponse!
+    updateSchool(id: Int!, school_name: String, school_population: Int, address: AddressInput, status: SchoolStatus): SchoolResponse!
+    deleteSchool(id: Int!): SchoolResponse!
+}
+
+type SchoolResponse {
+    created: Boolean
+    updated: Boolean
+    deleted: Boolean
+    school: School
+    err: String
+}
